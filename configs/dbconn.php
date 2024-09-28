@@ -5,7 +5,7 @@
     define("USER","root");
     define("PASSWORD","");
 
-    class Conn{
+    class Connection{
         protected $con_string = "mysql:host=". SERVER . ";dbname=" . DBASE ."; charset=utf8mb4";
         protected $options = [
           \PDO::ATTR_ERRMODE =>  \PDO::ERRMODE_EXCEPTION,
