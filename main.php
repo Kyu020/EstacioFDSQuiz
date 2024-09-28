@@ -30,19 +30,21 @@ else $req = array("errorcatcher");
 switch ($_SERVER['REQUEST_METHOD']){
     case 'GET':
         if ($req[0] == 'getAllItem') {echo json_encode($try->getAll());return;}
-        //if ($req[0] == 'get' && req[1]) {echo json_encode($try->getSingle());return;}
+        if ($req[0] == 'getSingle' && isset($_GET['id'])) {$id = $_GET['id']; echo json_encode($try->getSingle($id));return;}
         break;
     case 'POST':
         $data_input = json_decode(file_get_contents("php://input"));
         if($req[0]=='insert'){echo json_encode($try->insert($data_input)); return;}
+        break;
+    case 'PUT':
+        $data_input = json_decode(file_get_contents('php://input'), true);
+        if(isset($req[1]) && !empty($data_input)){$id = (int)$req[1]; echo json_encode($try->update($id,$data_input)); return;}
+        break;
     case 'DELETE':
-        $data_input = json_decode(file_get_contents("php://input"));
-        $id = intval($data_input['id']);
-        if ($req[0] =='delete'){echo json_encode($try->delete($id));return;}
-
-        
+        if(isset($req[1])){$id=(int)$req[1]; echo json_encode($try->delete($id));return;}
+        break;
     default:
-        echo "Whatdak";
+        echo "nuh uh ain't working cuh";
         http_response_code(403);
         break;
 }
